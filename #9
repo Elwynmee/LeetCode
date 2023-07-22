@@ -1,0 +1,39 @@
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0: return False
+
+        div = 1
+        while x > 10 * div:
+            div *= 10
+            
+        while x:
+            right = x % 10
+            left = x // div
+
+            if left != right: return False
+
+            x = (x % div) // 10
+            div = div / 100
+        
+        return True
+    
+class Solution:
+    def isPalindrome(self, x: int) -> bool:
+        # Negative numbers are not palindromes
+        if x < 0:
+            return False
+
+        # For single-digit numbers, they are palindromes
+        if x >= 0 and x < 10:
+            return True
+
+        # Reverse the integer
+        reversed_x = 0
+        original_x = x
+
+        while x > 0:
+            reversed_x = reversed_x * 10 + x % 10
+            x //= 10
+
+        # Compare the reversed integer with the original one
+        return reversed_x == original_x
