@@ -1,0 +1,30 @@
+class Solution(object):
+    def intToRoman(self, num):
+        #make a list of tuples named value and symbols
+        #Input all possible value and symbols
+        value_symbols = [
+            (1000, 'M'),
+            (900, 'CM'),
+            (500, 'D'),
+            (400, 'CD'),
+            (100, 'C'),
+            (90, 'XC'),
+            (50, 'L'),
+            (40, 'XL'),
+            (10, 'X'),
+            (9, 'IX'),
+            (5, 'V'),
+            (4, 'IV'),
+            (1, 'I')
+        ]
+
+        #Initialize an empty string 
+        roman_numeral = ''
+        #Loop in the value_symbols 
+        for value, symbols in value_symbols:
+            while num >= value:
+                #Subtract the Value 
+                num -= value
+                #Add the symbol to the empty string
+                roman_numeral += symbols
+        return roman_numeral
