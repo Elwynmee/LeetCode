@@ -1,0 +1,16 @@
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        if not strs: return ""    # If list is empty return empty string
+        
+        min_len = min(len(s) for s in strs)    # Find the minimum length of strings in the list
+        
+        for i in range(min_len):    # Loop over characters up to min length
+            char_set = set([x[i] for x in strs])    # Get a set of characters in current position i
+            if len(char_set) > 1:    # If more than one unique character, return prefix up to but not including current position i
+                return strs[0][:i]
+        
+        return strs[0][:min_len]    # If loop completed, all characters matched for min_len, return prefix
