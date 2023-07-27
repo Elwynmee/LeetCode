@@ -1,0 +1,26 @@
+class Solution(object):
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        if not digits: 
+            return []
+        
+        phone = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',
+                 '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
+        
+        def backtrack(index, path):
+            # If the path is the same length as digits, we have a complete combination
+            if len(path) == len(digits):
+                combinations.append("".join(path))
+                return  # Backtrack
+            # Add a letter for each possible next digit
+            for letter in phone[digits[index]]:
+                path.append(letter)  # Add the letter to our current path
+                backtrack(index + 1, path)  # Move on to the next digit
+                path.pop()  # Remove the letter from the path before backtracking
+
+        combinations = []
+        backtrack(0, [])
+        return combinations
