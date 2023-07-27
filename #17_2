@@ -1,0 +1,30 @@
+class Solution:
+    def letterCombinations(self, digits):
+        """
+        :type digits: str
+        :rtype: List[str]
+        """
+        if not digits:
+            return []
+
+        mappings = {
+            "2": "abc",
+            "3": "def",
+            "4": "ghi",
+            "5": "jkl",
+            "6": "mno",
+            "7": "pqrs",
+            "8": "tuv",
+            "9": "wxyz",
+        }
+
+        combinations = []
+        for letter in mappings[digits[0]]:
+            if len(digits) == 1:
+                combinations.append(letter)
+            else:
+                new_combinations = self.letterCombinations(digits[1:])
+                for new_combination in new_combinations:
+                    combinations.append(letter + new_combination)
+
+        return combinations
