@@ -1,0 +1,41 @@
+from typing import List
+
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        # This inner function findNsum is a recursive function to find all unique combinations of N numbers in `nums` that add up to `target`.
+        def findNsum(l, r, target, N, result, results):
+            # These conditions check for early termination:
+            # 1. If the numbers in the range (r-l+1) are less than N, we can't find a combination.
+            # 2. If N is less than 2, it's not possible as we need at least a pair to add up.
+            # 3. If target is less than the smallest possible sum (nums[l]*N) or target is more than the largest possible sum (nums[r]*N), then no sum possible.
+            if r-l+1 < N or N < 2 or target < nums[l]*N or target > nums[r]*N:
+                return
+            
+            # If N is 2, we just need to find pairs of numbers that add up to `target`. This can be done efficiently with a two-pointers technique.
+            if N == 2:
+                while l < r:
+                    s = nums[l] + nums[r]
+                    if s == target:
+                        results.append(result + [nums[l], nums[r]])
+                        l += 1
+                        # This while loop is for avoiding duplicates.
+                        while l < r and nums[l] == nums[l - 1]:
+                            l += 1
+                    # If the sum is less than the target, we increase the left pointer.
+                    elif s < target:
+                        l += 1
+                    # If the sum is more than the target, we decrease the right pointer.
+                    else:
+                        r -= 1
+            else:
+                # If N is more than 2, we try to reduce the problem to a smaller one (i.e., reduce N by 1 and reduce the target by nums[i])
+                for i in range(l, r+1):
+                    if i == l or (i > l and nums[i-1] != nums[i]):
+                        findNsum(i+1, r, target-nums[i], N-1, result+[nums[i]], results)
+
+        # First, we sort the list. This is important for the two-pointers technique and for skipping duplicates.
+        nums.sort()
+        results = []
+        # We start by finding all unique quadruplets, so N is 4.
+        findNsum(0, len(nums)-1, target, 4, [], results)
+        return results
