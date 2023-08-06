@@ -1,25 +1,14 @@
 class Solution:
-    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        # Create a dummy node
-        dummy = ListNode(0)
-        current = dummy
-        
-        # While both lists have nodes
-        while list1 and list2:
-            # Compare the values and append the smaller one
-            if list1.val <= list2.val:
-                current.next = list1
-                list1 = list1.next
-            else:
-                current.next = list2
-                list2 = list2.next
-            # Advance the current pointer
-            current = current.next
-        
-        # If any list still has nodes, append it
-        if list1:
-            current.next = list1
-        else:
-            current.next = list2
-        
-        return dummy.next
+    def generateParenthesis(self, n: int):
+        def generate(s = '', left = 0, right = 0):
+            if len(s) == 2 * n:
+                result.append(s)
+                return
+            if left < n:
+                generate(s+'(', left+1, right)
+            if right < left:
+                generate(s+')', left, right+1)
+
+        result = []
+        generate()
+        return result
