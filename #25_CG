@@ -1,0 +1,39 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverseKGroup(head: ListNode, k: int) -> ListNode:
+    # Helper function to reverse a sublist
+    def reverse(start, end):
+        prev, curr = None, start
+        while curr != end:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        return prev
+
+    # Count the number of nodes in the list
+    count = 0
+    temp = head
+    while temp:
+        count += 1
+        temp = temp.next
+
+    dummy = ListNode(0)
+    dummy.next = head
+    prev_group_end = dummy
+
+    # Reverse every k nodes as long as there are at least k nodes left in the list
+    while count >= k:
+        group_start = prev_group_end.next
+        group_end = prev_group_end.next
+        for i in range(k):
+            group_end = group_end.next
+        prev_group_end.next = reverse(group_start, group_end)
+        group_start.next = group_end
+        prev_group_end = group_start
+        count -= k
+
+    return dummy.next
