@@ -1,0 +1,36 @@
+class Solution:
+    def divide(self, dividend: int, divisor: int) -> int:
+        # Constants for the maximum and minimum possible 32-bit signed integer
+        INT_MAX = 2**31 - 1
+        INT_MIN = -2**31
+        
+        # Handling edge cases and determining the sign of the result
+        if dividend == 0:
+            return 0
+        if dividend == INT_MIN and divisor == -1:
+            return INT_MAX
+        
+        sign = 1
+        if (dividend < 0) ^ (divisor < 0):
+            sign = -1
+        
+        dividend, divisor = abs(dividend), abs(divisor)
+        
+        quotient = 0
+        temp = 1
+        temp_divisor = divisor
+        
+        # Left shift divisor until it's greater than dividend
+        while dividend >= (temp_divisor << 1):
+            temp_divisor <<= 1
+            temp <<= 1
+        
+        # Subtract divisor and increase quotient
+        while dividend >= divisor:
+            if dividend >= temp_divisor:
+                dividend -= temp_divisor
+                quotient += temp
+            temp_divisor >>= 1
+            temp >>= 1
+        
+        return min(max(sign * quotient, INT_MIN), INT_MAX)
