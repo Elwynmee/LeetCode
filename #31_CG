@@ -1,0 +1,34 @@
+from collections import defaultdict
+
+class Solution:
+    def findSubstring(self, s: str, words: List[str]) -> List[int]:
+        if not s or not words:
+            return []
+        
+        word_len = len(words[0])
+        word_count = len(words)
+        concat_len = word_len * word_count
+        
+        # Create a hash table to store the frequency of each word
+        word_freq = defaultdict(int)
+        for word in words:
+            word_freq[word] += 1
+        
+        result = []
+        
+        # Iterate through s
+        for i in range(len(s) - concat_len + 1):
+            current_freq = defaultdict(int)
+            
+            # For each word in the substring
+            for j in range(0, concat_len, word_len):
+                word = s[i+j:i+j+word_len]
+                if word not in word_freq:
+                    break
+                current_freq[word] += 1
+                if current_freq[word] > word_freq[word]:
+                    break
+                if j == concat_len - word_len:
+                    result.append(i)
+        
+        return result
